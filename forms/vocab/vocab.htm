@@ -1,0 +1,157 @@
+<!doctype html><html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=yes, minimum-scale=1.0, maximum-scale=10.0">
+<script src="/conet.js"></script>
+<style>
+body,input,button {
+  font-family:sans-serif;font-size:20px;
+}
+</style>
+</head>
+<body bgcolor="#aaaaaa">
+
+<script type="text/javascript">
+(function() {
+  //---
+  let learn=[],errors=[],count,countLearn=0,countErr=0,
+      learnI,tdLearn,tdErr,i0,i1,bu;
+  
+  
+  function check() {
+    //---
+    let i=learnI,p=learn[i];
+    if (i1.value!=p[1]) {
+      alert('Fehler, richtig ist:\n"'+p[1]+'"');
+      countErr++;
+      errors.push(p);
+    } else {
+      countLearn++;
+      if ((learn.length==1)&&(errors.length==0)) {
+        alert('Richtig, alles gelernt!');
+        updateHeader();
+        bu.disabled=1;
+        return;
+      }
+      alert('Richtig!');
+    }
+    learn.splice(i,1);
+    if (learn.length==0) { learn=errors;errors=[]; }  
+    setNext();
+    //...
+  }
+  
+  
+  function init() {
+    let c=document.createElement('div'),st=c.style;
+    st.width='fit-content';st.margin='20px auto';
+    document.body.appendChild(c);
+    
+    let tr,td,tab=document.createElement('table');st=tab.style;st.width='100%';
+    c.appendChild(tab);
+    
+    tr=document.createElement('tr');tab.appendChild(tr);
+    td=document.createElement('td');td.setAttribute('colspan',2);td.align='center';
+    td.style.lineHeight='0.8';tr.appendChild(td);
+    td.innerHTML='<span style="font-size:2em;">Vocab</span><br>'
+      +'<span style="font-size:0.5em;">v.1.95 </span>';//FOLDORUPDATEVERSION
+    
+    tr=document.createElement('tr');tab.appendChild(tr);
+    td=document.createElement('td');tdLearn=td;
+    tr.appendChild(td);
+    td=document.createElement('td');tdErr=td;
+    td.align='right';
+    tr.appendChild(td);
+    
+    tr=document.createElement('tr');tab.appendChild(tr);
+    td=document.createElement('td');td.setAttribute('colspan',2);
+    tr.appendChild(td);
+    let dv=document.createElement('div');st=dv.style;
+    st.width='100px';st.display='inline-block';
+    dv.innerHTML='Deutsch';
+    td.appendChild(dv);
+    i0=document.createElement('input');i0.setAttribute('disabled',true);st=i0.style;
+    //st.marginLeft='6px';
+    st.width='250px';
+    i0.value='123';
+    td.appendChild(i0);
+    
+    tr=document.createElement('tr');tab.appendChild(tr);
+    td=document.createElement('td');td.setAttribute('colspan',2);
+    tr.appendChild(td);
+    dv=document.createElement('div');st=dv.style;
+    st.width='100px';st.display='inline-block';
+    dv.innerHTML='Englisch';
+    td.appendChild(dv);
+    i1=document.createElement('input');st=i1.style;
+    //st.marginLeft='6px';
+    st.width='250px';
+    i1.value='123';
+    td.appendChild(i1);
+    
+    tr=document.createElement('tr');tab.appendChild(tr);
+    td=document.createElement('td');td.setAttribute('colspan',2);
+    tr.appendChild(td);
+    bu=document.createElement('button');
+    bu.innerHTML='Check';bu.onclick=check;
+    td.appendChild(bu);
+    
+    
+    let url=Conet.parseUrl(),fn=url.fn||'/forms/vocab/test1.txt';
+    Conet.download({fn:fn,f:function(v) {
+      //---
+      //console.log(v);
+      let a=v.split('\n'),v0;
+      for (let i=0;i<a.length;i++) {
+        let s=a[i];
+        if (s.endsWith('\r')) s=s.substr(0,s.length-1);
+        if (s.length==0) continue;
+        if (v0===undefined) 
+          v0=s;
+        else {
+          learn.push([v0,s]);
+          v0=undefined;
+        }
+      }
+      count=learn.length;
+      //console.log(learn);
+      setNext();
+      //...
+    }
+    });
+  }
+  
+  function setNext() {
+    //---
+    //update header
+    updateHeader();
+    
+    learnI=Math.floor(Math.random()*learn.length);
+    let p=learn[learnI];
+    i0.value=p[0];
+    i1.value='';
+    i1.focus();
+    //...
+  }
+  
+  function updateHeader() {
+    //---
+    tdLearn.innerHTML='Gelernt: <span style="color:#060;">'+countLearn+'/'+count+' '+Math.floor(0.5+100*countLearn/count)+'%</&span>';
+    tdErr.innerHTML='Fehler: <span style="color:#a00;">'+countErr+' '+Math.floor(0.5+100*countErr/count)+'%</span>';
+    //...
+  }
+  
+  init();
+  //...
+}
+)();
+</script>
+
+</body>
+</html><script>
+//fr o,13
+//fr o,13,5
+//fr o,13,8
+//fr o,13,8,55
+//fr o,13,10
+//fr o,13,12
+//fr p,0,21
