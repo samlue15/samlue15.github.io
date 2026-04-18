@@ -4,5 +4,5 @@ one
 zwei
 two
 
-drei
-three
+buchstabieren
+to spell
