@@ -1,1 +1,62 @@
-123
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<style>
+body { margin:0px auto;font-family:sans-serif;font-size:16px;color:#000;background-color:#777; }
+</style>
+<title>Midi files</title>
+<script src="/conet.js"></script>
+</head>
+
+<body>
+        
+<script>
+(function() {
+  //...
+  let dir='/sound/mid';//url=Conet.parseUrl();
+  
+  Conet.grid({
+    cont:document.body,dir:dir,noFolders:1
+  ,skipFile:function(fn) {
+    //---
+    return !fn.endsWith('.midi.json');
+    //...
+  }
+    
+  ,formatStart:function(el)   {
+    //---
+    let s=el.style;
+    s.fontSize='2em';
+    s.gridColumn='1 / -1';
+    s.paddingLeft='6px';
+    el.innerHTML='Midi files';
+    //...
+  }
+    
+  ,formatCell:function(el) {
+    //---
+    let s=el.style;
+    s.backgroundColor='#ddd';
+    s.paddingLeft='6px';
+    let fn=el.innerHTML;
+    el.innerHTML='<a href="/sound/mid/TestMidi.htm?fn='+dir+'/'+fn+'">'+fn.substr(0,fn.length-10)+'</a>';
+    //...
+  }
+    
+    });
+  //---
+}
+)();
+</script>
+
+
+</body>
+</html>
+<script>
+//fr o,15
+//fr o,15,5
+//fr o,15,7
+//fr o,15,9
+//fr p,20,41
