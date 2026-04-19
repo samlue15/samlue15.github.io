@@ -1,7 +1,7 @@
 var Conet={};
 (function(Conet) {
   Conet.offline=false;
-  Conet.version='1.757 ';//FOLDORUPDATEVERSION
+  Conet.version='1.776 ';//FOLDORUPDATEVERSION
   Conet.files={};
   var uploads={},fns,logc,logs=[],//fn=>data,first
       logSameLineCount=0,ac,downloads={},PI=Math.PI;
@@ -1351,16 +1351,17 @@ var Conet={};
     function start(title) {
       //---
       cont.innerHTML='';let s=cont.style;
-      cont.style.display='grid';
-      //cont.style.gridTemplateColumns='repeat(auto-fill, minmax(210px, 1fr))';
-      cont.style.gridTemplateColumns='repeat(auto-fill, minmax('+(gps.min||'210px')+', 1fr))';
-      cont.style.background='#777';
-      cont.style.padding='4px';
-      s.fontSize='12px';
+      s.display='grid';
+      //s.gridTemplateColumns='repeat(auto-fill, minmax(210px, 1fr))';
+      s.gridTemplateColumns='repeat(auto-fill, minmax('+(gps.min||'210px')+', 1fr))';
+      s.background='#777';
+      s.padding='4px';
+      //s.fontSize='12px';//260419 removed so that /sound/mid/index.html has bigger font
       s.color='#000';
       if (gps.skipStart) return;
       let e=document.createElement('div');s=e.style;
       e.innerHTML=title;//dir;
+      //s.fontSize='1.5em';//'18px';
       s.fontSize='18px';
       s.background='#aaa';s.borderColor='#444';
       //s.gridColumn='1 / -1';
@@ -1368,6 +1369,7 @@ var Conet={};
       s.border='1px solid';
       s.padding='2px';
       s.margin='2px';
+      if (gps.formatStart) gps.formatStart(e);
       if (gps.closeButton) {
         let c=document.createElement('button');
         c.innerHTML='X';
@@ -1387,6 +1389,7 @@ var Conet={};
         //---
         start(dir);
         
+        if (!gps.noFolders)
         for (let fn of a) {
           if (fn.indexOf('.')>0) continue;
           addFolder({fn0:fn});
@@ -1394,6 +1397,7 @@ var Conet={};
         for (let fn0 of a) {
           if (fn0.indexOf('.')<=0) continue;
           let fn=dir+'/'+fn0,fnl=fn.toLowerCase();
+          if (gps.skipFile) if (gps.skipFile(fn)) continue;
           let el=document.createElement('div'),s=el.style;
           s.background='#888';s.borderColor='#444';
           s.borderRadius='0px 0.5em 0.5em';
@@ -1402,11 +1406,14 @@ var Conet={};
           s.margin='2px';
           s.wordBreak='break-all';
           el.innerHTML=fn0;
+          if (gps.formatCell) gps.formatCell(el);
           if (syncAdd) cont.appendChild(el);
-          if (fnl.endsWith('.json')) {
+          if (fnl.endsWith('.midi.json')) {}
+          else if (fnl.endsWith('.json')) {
           
         Conet.download({fn:fn,_el:el,f:function(v) {
           //---
+          //onsole.log('...json downloaded');
           let d;
           try {
             d=JSON.parse(v);
@@ -1453,7 +1460,7 @@ var Conet={};
         s.border='1px solid';
         s.padding='2px';
         s.margin='2px';
-        s.wordBreak='break-all';
+        s.wordBreak=gps.wordBreak||'break-all';
         //s.filter='grayscale(1)';
         el.innerHTML=f.text||f.fn;el._fh=f;
         cont.appendChild(el);
@@ -1540,7 +1547,8 @@ console.log('Conet '+Conet.version);
 //fr o,1,9,33
 //fr o,1,10,29
 //fr o,1,10,31
-//fr o,1,13
+//fr o,1,12
+//fr o,1,12,1
 //fr o,1,13,4
 //fr o,1,13,5
 //fr o,1,13,6
@@ -1556,18 +1564,23 @@ console.log('Conet '+Conet.version);
 //fr o,1,13,45
 //fr o,1,13,73
 //fr o,1,14,1
+//fr o,1,19
 //fr o,1,21,4
 //fr o,1,50,13
-//fr o,1,61
 //fr o,1,64,3
 //fr o,1,65,2
-//fr o,1,109
 //fr o,1,117,2
 //fr o,1,117,11
+//fr o,1,121
 //fr o,1,121,3
 //fr o,1,121,4
-//fr o,1,121,8,24
+//fr o,1,121,8
+//fr o,1,121,8,26
+//fr o,1,121,10
+//fr o,1,121,10,0
+//fr o,1,121,10,0,25
+//fr o,1,124
 //fr o,1,124,1
 //fr o,1,124,1,16
 //fr o,1,124,9
-//fr p,0,117
+//fr p,41,287
