@@ -1,7 +1,7 @@
 var Conet={};
 (function(Conet) {
   Conet.offline=false;
-  Conet.version='1.794 ';//FOLDORUPDATEVERSION
+  Conet.version='1.796 ';//FOLDORUPDATEVERSION
   Conet.files={};
   var uploads={},fns,logc,logs=[],//fn=>data,first
       logSameLineCount=0,ac,downloads={},PI=Math.PI;
@@ -403,7 +403,9 @@ var Conet={};
       });
     }
     
-    if (p.savef) {
+    if (p.savef
+      &&Conet.checkOnline()//29-04-20
+      ) {
     m.sub.push(msave=
     {s:'Save',a:'conetSave',keys:['83_c'],ms:'<span style="color:#00f">ctrl+s</span>',actionf:function() {
       if ((m.curFn!==undefined)&&m.files) checkListFile(m.curFn);
@@ -1570,6 +1572,7 @@ console.log('Conet '+Conet.version);
 //fr o,1,10,31
 //fr o,1,12
 //fr o,1,12,15
+//fr o,1,13
 //fr o,1,13,4
 //fr o,1,13,5
 //fr o,1,13,6
@@ -1580,16 +1583,17 @@ console.log('Conet '+Conet.version);
 //fr o,1,13,23
 //fr o,1,13,31,3
 //fr o,1,13,35,4
-//fr o,1,13,41
-//fr o,1,13,44
-//fr o,1,13,45
-//fr o,1,13,73
+//fr o,1,13,43
+//fr o,1,13,46
+//fr o,1,13,47
+//fr o,1,13,75
 //fr o,1,14,1
 //fr o,1,19
 //fr o,1,21,4
 //fr o,1,50,13
 //fr o,1,64,3
 //fr o,1,65,2
+//fr o,1,109
 //fr o,1,117,2
 //fr o,1,117,11
 //fr o,1,121
@@ -1604,4 +1608,4 @@ console.log('Conet '+Conet.version);
 //fr o,1,124,1
 //fr o,1,124,1,16
 //fr o,1,124,9
-//fr p,2,32
+//fr p,33,193
