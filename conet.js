@@ -1,7 +1,7 @@
 var Conet={};
 (function(Conet) {
   Conet.offline=false;
-  Conet.version='1.776 ';//FOLDORUPDATEVERSION
+  Conet.version='1.794 ';//FOLDORUPDATEVERSION
   Conet.files={};
   var uploads={},fns,logc,logs=[],//fn=>data,first
       logSameLineCount=0,ac,downloads={},PI=Math.PI;
@@ -184,7 +184,27 @@ var Conet={};
     return n<10?'0'+n:n;
   }
   function dir(p) {
-    //--
+    //---
+    let url=document.URL;
+    //url='https://samlue15.github.io/sound/mid/';
+    //onsole.log('conet.dir url='+url+' p.fn='+p.fn);
+    
+    let i=url.indexOf('.github.io');
+    if (i!=-1) {
+      let sh=url.substr(8,i-8);
+      sh='https://api.github.com/repos/'+sh+'/'+sh+'.github.io/contents'+p.fn;
+      console.log('Getting dir from: '+sh);
+      Conet.xhr({url:sh,
+    f:function(v) {
+      //---
+      let a0=JSON.parse(v),a1=[];
+      for (let h of a0) a1.push(h.name);
+      p.f(a1);
+      //...
+    }
+      });
+    } else
+    
     download({fn:p.fn,f:function (v) {
       var a=v.split('\n'),ra=[];
       for (var i=0;i<a.length;i++) {
@@ -1463,6 +1483,7 @@ var Conet={};
         s.wordBreak=gps.wordBreak||'break-all';
         //s.filter='grayscale(1)';
         el.innerHTML=f.text||f.fn;el._fh=f;
+        if (gps.formatCell) gps.formatCell(el);
         cont.appendChild(el);
         if (f.isrc) addImage({src:f.isrc,el:el,height:50});
         if (gps.onclick) {    
@@ -1548,7 +1569,7 @@ console.log('Conet '+Conet.version);
 //fr o,1,10,29
 //fr o,1,10,31
 //fr o,1,12
-//fr o,1,12,1
+//fr o,1,12,15
 //fr o,1,13,4
 //fr o,1,13,5
 //fr o,1,13,6
@@ -1583,4 +1604,4 @@ console.log('Conet '+Conet.version);
 //fr o,1,124,1
 //fr o,1,124,1,16
 //fr o,1,124,9
-//fr p,41,287
+//fr p,2,32
