@@ -16,7 +16,7 @@ button { font-size:20px;margin-right:4px;margin-bottom:4px; }
 <script type="text/javascript">
 (function() {
   //---
-  let data,ta,canvas,CONTROL=0xb0;//control=pedal
+  let data,ta,canvas,CONTROL=0xb0,mpreset;//control=pedal
   
   function clear() {
     //---
@@ -187,7 +187,8 @@ button { font-size:20px;margin-right:4px;margin-bottom:4px; }
           openNotes[b[2]]=undefined;
           let dt=t-h.t;  
           if (queue) {
-            queue.push({sah:{pitch:b[2],preset:'gp',when:h.t/1000,duration:dt/1000}});
+            queue.push({sah:{pitch:b[2],preset:mpreset.ms//'gp'
+             ,when:h.t/1000,duration:dt/1000}});
           } else {
       let f=440*Math.pow(2,(b[2]-49-24)/12),dt=t-h.t,v=h.v/100;
       setTimeout(function() {
@@ -239,7 +240,7 @@ button { font-size:20px;margin-right:4px;margin-bottom:4px; }
     function() {
       //---
       let c=document.createElement('span');c.style.fontSize='12px';
-      let version='v.0.282 ';//FOLDORUPDATEVERSION
+      let version='v.0.295 ';//FOLDORUPDATEVERSION
       c.innerHTML=version;
       document.body.appendChild(c);
       let count=0;
@@ -476,7 +477,10 @@ button { font-size:20px;margin-right:4px;margin-bottom:4px; }
       });
       
       Menu.init(
-      [{s:'&#9776;',noTri:true,fs:1.4,pw:0.05,sub:[cfm]
+      [{s:'&#9776;',noTri:true,fs:1.4,pw:0.05,sub:[
+      cfm
+      ,mpreset={s:'Preset',ms:'gp',autoval:2,sub:[{s:'gp'},{s:'guitar'},{s:'ahhs'},{s:'ohit'}]}
+      ]
       }]
       ,{listen:1});
       //...
@@ -509,4 +513,4 @@ button { font-size:20px;margin-right:4px;margin-bottom:4px; }
 //fr o,16,7,67
 //fr o,16,7,67,3
 //fr o,16,7,67,7
-//fr p,25,129
+//fr p,19,398
