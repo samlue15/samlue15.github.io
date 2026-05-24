@@ -175,6 +175,51 @@ year
 wohltätigkeitsverein
 charity
 
+spielzeug
+toy
+
+ausräumen
+to clear out
+
+garage
+garage
+
+fühlen
+to feel
+
+hoffnungsvoll
+hopefull
+
+klingeln
+to ring
+
+geld verdienen
+to make money
+
+voll(von)
+full(of)
+
+wegwerfen
+to throw away
+
+kaffee
+coffee
+
+second hand laden
+charity shop
+
+irgenwelche
+any
+
+telefon
+telephone
+
+schade
+too bad
+
+mit dem hund spazieren gehen
+to walk the dog
+
 
 
 
