@@ -1,7 +1,7 @@
 var Conet={};
 (function(Conet) {
   Conet.offline=false;
-  Conet.version='1.796 ';//FOLDORUPDATEVERSION
+  Conet.version='1.844 ';//FOLDORUPDATEVERSION
   Conet.files={};
   var uploads={},fns,logc,logs=[],//fn=>data,first
       logSameLineCount=0,ac,downloads={},PI=Math.PI;
@@ -382,7 +382,7 @@ var Conet={};
     
     
     if (p.grid) {
-    m.sub.push({s:'Loadgrid..',actionf:function() {
+    m.sub.push({s:'Loadgrid..',r:1,actionf:function() {
       //---
       //let md=new Mdiv.Cont(50,50,Math.min(800,window.innerWidth-100),Math.min(600,window.innerHeight-100));
       let md=new Mdiv.Cont(20,20,window.innerWidth-140,window.innerHeight-100);
@@ -1376,6 +1376,10 @@ var Conet={};
       s.display='grid';
       //s.gridTemplateColumns='repeat(auto-fill, minmax(210px, 1fr))';
       s.gridTemplateColumns='repeat(auto-fill, minmax('+(gps.min||'210px')+', 1fr))';
+      if (gps.minHeight) s.gridAutoRows='minmax('+gps.minHeight+',auto)';
+      if (gps.gap) s.rowGap=s.columnGap=gps.gap;
+      //grid-auto-rows: minmax(100px, auto);
+      
       s.background='#777';
       s.padding='4px';
       //s.fontSize='12px';//260419 removed so that /sound/mid/index.html has bigger font
@@ -1385,12 +1389,14 @@ var Conet={};
       e.innerHTML=title;//dir;
       //s.fontSize='1.5em';//'18px';
       s.fontSize='18px';
-      s.background='#aaa';s.borderColor='#444';
+      s.background='#aaa';//s.borderColor='#444';
       //s.gridColumn='1 / -1';
       s.borderRadius='0px 0.5em 0.5em';
-      s.border='1px solid';
+      s.border='1px solid #444444';
       s.padding='2px';
       s.margin='2px';
+      s.boxShadow='2px 2px 2px #555555';
+      
       if (gps.formatStart) gps.formatStart(e);
       if (gps.closeButton) {
         let c=document.createElement('button');
@@ -1421,12 +1427,13 @@ var Conet={};
           let fn=dir+'/'+fn0,fnl=fn.toLowerCase();
           if (gps.skipFile) if (gps.skipFile(fn)) continue;
           let el=document.createElement('div'),s=el.style;
-          s.background='#888';s.borderColor='#444';
+          s.background='#888';//s.borderColor='#444';
           s.borderRadius='0px 0.5em 0.5em';
-          s.border='1px solid';
+          s.border='1px solid #444444';
           s.padding='2px';
           s.margin='2px';
           s.wordBreak='break-all';
+          s.boxShadow='2px 2px 2px #555555';
           el.innerHTML=fn0;
           if (gps.formatCell) gps.formatCell(el);
           if (syncAdd) cont.appendChild(el);
@@ -1477,12 +1484,14 @@ var Conet={};
       for (let f of gps.files) {
         let el=document.createElement('div'),s=el.style;
         s.background='#888';
-        s.borderColor='#444';
+        //s.borderColor='#eeeeee';//'#444';
         s.borderRadius='0px 0.5em 0.5em';
-        s.border='1px solid';
+        s.border='1px solid #444444';
         s.padding='2px';
         s.margin='2px';
         s.wordBreak=gps.wordBreak||'break-all';
+        s.boxShadow='2px 2px 2px #555555';
+        //if (gps.boxShadow) s.boxShadow=gps.boxShadow;
         //s.filter='grayscale(1)';
         el.innerHTML=f.text||f.fn;el._fh=f;
         if (gps.formatCell) gps.formatCell(el);
@@ -1560,19 +1569,67 @@ var Conet={};
     } else showDiv();
     //...
   }
+  
+  Conet.dateToString=function(d) {
+    //...
+    var local=d;//new Date(this);
+    local.setHours(d.getHours()+(d.getTimezoneOffset()/-60) );
+    let r=local.toJSON();
+    return r.substr(0,16).replaceAll('T',' ');
+    //---
+  }
+  Conet.alert=function(s) {
+    //---
+    let d=document.createElement('dialog');
+    let b=document.createElement('button');
+    b.innerHTML='Close';
+    b.onclick=function() {
+      d.close();
+    }
+    //d.appendChild(document.createTextNode('This level is currently not playable.\nThe yellow ones are.'));
+    d.innerHTML=s+'<br><br>';//'This level is currently not playable.<br>The yellow ones are.<br><br>';
+    d.appendChild(b);
+    document.body.appendChild(d);
+    d.showModal();
+    //...
+  }
+  
+  Conet.prompt=function(s,ps) {
+    //---
+    let d=document.createElement('dialog');
+    d.innerHTML=s+'<br><br>';
+    
+    let b=document.createElement('button');
+    b.innerHTML='Yes';
+    b.onclick=function() {
+      d.close();
+      if (ps.onyes) ps.onyes();
+    }
+    d.appendChild(b);
+    
+    d.appendChild(document.createTextNode(' '));
+    
+    b=document.createElement('button');
+    b.innerHTML='No';
+    b.onclick=function() {
+      d.close();
+    }
+    d.appendChild(b);
+    
+    
+    document.body.appendChild(d);
+    d.showModal();
+    //...
+  }
+  
   //---
 }
 )(Conet);
 console.log('Conet '+Conet.version);
 //fr o,1
-//fr o,1,5
-//fr o,1,5,4
 //fr o,1,9,33
 //fr o,1,10,29
 //fr o,1,10,31
-//fr o,1,12
-//fr o,1,12,15
-//fr o,1,13
 //fr o,1,13,4
 //fr o,1,13,5
 //fr o,1,13,6
@@ -1582,30 +1639,29 @@ console.log('Conet '+Conet.version);
 //fr o,1,13,22
 //fr o,1,13,23
 //fr o,1,13,31,3
+//fr o,1,13,35
 //fr o,1,13,35,4
 //fr o,1,13,43
 //fr o,1,13,46
 //fr o,1,13,47
 //fr o,1,13,75
 //fr o,1,14,1
-//fr o,1,19
 //fr o,1,21,4
 //fr o,1,50,13
 //fr o,1,64,3
 //fr o,1,65,2
-//fr o,1,109
 //fr o,1,117,2
 //fr o,1,117,11
-//fr o,1,121
 //fr o,1,121,3
 //fr o,1,121,4
 //fr o,1,121,8
-//fr o,1,121,8,26
-//fr o,1,121,10
+//fr o,1,121,8,32
 //fr o,1,121,10,0
-//fr o,1,121,10,0,25
-//fr o,1,124
+//fr o,1,121,10,0,26
 //fr o,1,124,1
 //fr o,1,124,1,16
 //fr o,1,124,9
-//fr p,33,193
+//fr o,1,127
+//fr o,1,129
+//fr o,1,129,6
+//fr p,44,156
