@@ -136,7 +136,7 @@ friendly
 den ganzen tag
 all day
 
-singer
+seuännger
 singer
 
 traum
@@ -151,3 +151,38 @@ course
 berg
 mountain
 
+wald
+forest
+
+abenteuer
+adventure
+
+klettern
+walking
+
+wandern
+climbing
+
+schluchten klettern
+gorge scrambling
+
+route
+route
+
+als
+then
+
+schlimste
+worst
+
+getrennt
+seperate
+
+keltisch
+celtic
+
+walisisch
+welsh
+
+niedrig
+low
